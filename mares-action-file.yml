@@ -1,0 +1,22 @@
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  PRIVATE_REPOSITORY: dsp-testing/15MariamS_Test
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: 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
+ 
+      - name: Publish Public to Private
+        if: ${{ env.GITHUB_REPOSITORY == env.PUBLIC_REPOSITORY  }}
+        run: |
+          git config --global user.name "repository-sync"
+          git push "https://repository-sync:${{ secrets.MY_REPOS_SECRET }}@github.com/${{ env.PRIVATE_REPOSITORY }}.git"
